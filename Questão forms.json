@@ -1,0 +1,483 @@
+{
+  "name": "Questão forms",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "### Eu aproveitei essa questão para trazer um exemplo prático de forma mais simples.\n\n## 5.1. Descreva como você resolveria o seguinte problema: \n\n“Receber dados de um formulário, validar informações obrigatórias, enriquecer os dados via API externa e enviar uma mensagem ao usuário automaticamente.”\n",
+        "height": 272,
+        "width": 496
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -464,
+        -432
+      ],
+      "typeVersion": 1,
+      "id": "82b95067-7623-45fe-bfa0-5683020dc2c7",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Integrações:\ngoogle sheets\ngoogle drive\ngroq api",
+        "height": 128,
+        "width": 176
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -464,
+        -144
+      ],
+      "typeVersion": 1,
+      "id": "463feb0b-720d-4dbb-ae4d-c96513ef457c",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "Entrada de dados",
+        "height": 80,
+        "width": 150,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -16,
+        -96
+      ],
+      "typeVersion": 1,
+      "id": "cf63b062-ddf5-48c5-8b36-4af2972c904e",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "Instalação via docker",
+        "height": 80,
+        "width": 150
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -464,
+        16
+      ],
+      "typeVersion": 1,
+      "id": "9f56e589-a42f-44dd-9570-134a6e4f3287",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.text }}\n\n\n",
+        "options": {
+          "systemMessage": "Você um especialista em RH e acabou de receber um currículo e precisamos que avalie a compatibilidade do candidato com a vaga.\n\nEle precisa ter disposição em aprender, formação em andamento, ou completa e conhecimento prévio, ou básico.\n\nFaça um resumo curto e ao final dê uma nota com % de compatibilidade da vaga"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        720,
+        0
+      ],
+      "id": "53721b8f-2467-444a-b0c3-8fc7c0b15882",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        624,
+        224
+      ],
+      "id": "41d8496d-f48f-4d1f-97ee-31770b60a76e",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "praR4E7iX2AZTHHS",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "### Materias utilizados para resolver a questão:\n\ndúvidas de configuração: docs n8n, exemplos práticos youtube, integração das apis com consulta aos docs n8n, e chat gpt\n",
+        "width": 304
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        48,
+        -432
+      ],
+      "typeVersion": 1,
+      "id": "fdafabb5-b6f3-4813-800b-309367009956",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Download file').item.json.name }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        784,
+        224
+      ],
+      "id": "29638442-83f4-4089-8415-ee8ba551981b",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "https://drive.google.com/drive/folders/1bZP0Tkovjs7eEdKv5NstHbKKfcwhhKjXp_E6q-HNgy4sqVkXz0V7o6w8o0FDKyt76fuN2ceQ",
+          "mode": "url"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "e3ebe473-13d6-4a6f-a9de-4d4296d7d150",
+      "name": "Google Drive Trigger",
+      "alwaysOutputData": false,
+      "notesInFlow": false,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "GyVMp5yriGGheSk4",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        208,
+        0
+      ],
+      "id": "a452302d-e3d7-45c4-90e1-4d4f3c7c064d",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "GyVMp5yriGGheSk4",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "de0e83d2-3e1a-44df-8df4-370aa328e8a5",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "13fCepnDhmVh51Vz7pJSXU9DtcwGm4SwBEAZ7rgKQ_Bs",
+          "mode": "list",
+          "cachedResultName": "base de dados forms",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13fCepnDhmVh51Vz7pJSXU9DtcwGm4SwBEAZ7rgKQ_Bs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1719257592,
+          "mode": "list",
+          "cachedResultName": "Respostas ao formulário 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13fCepnDhmVh51Vz7pJSXU9DtcwGm4SwBEAZ7rgKQ_Bs/edit#gid=1719257592"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Avaliação e compatibilidade": "={{ $json.output }}"
+          },
+          "matchingColumns": [
+            "Avaliação e compatibilidade"
+          ],
+          "schema": [
+            {
+              "id": "Carimbo de data/hora",
+              "displayName": "Carimbo de data/hora",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Telefone",
+              "displayName": "Telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Currículo",
+              "displayName": "Currículo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Link github",
+              "displayName": "Link github",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Avaliação e compatibilidade",
+              "displayName": "Avaliação e compatibilidade",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1088,
+        0
+      ],
+      "id": "fb29d0a4-8bf8-4a21-b954-b7b6f1c60188",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "YGXlUIFKLqOqRMVR",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "download do arquivo novo detectado pelo trigger",
+        "height": 80,
+        "width": 166,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        176,
+        -96
+      ],
+      "typeVersion": 1,
+      "id": "0e6beb41-e4b1-46e3-a316-1288f14cecb3",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "Extração dos dados para avaliação com I.A",
+        "height": 80,
+        "width": 166,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        384,
+        -96
+      ],
+      "typeVersion": 1,
+      "id": "0fbf7ce8-4c7c-438d-9b79-434ba18fed53",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "I.A Avalia o currículo e traz um resumo do arquivo, e avalia a compatibilidade do candidato com a vaga",
+        "height": 80,
+        "width": 342,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        672,
+        -112
+      ],
+      "typeVersion": 1,
+      "id": "9913a7bc-88cc-4279-8922-50dc4be9d995",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "E por fim também atualiza a planilha trazendo um resumo dos candidatos",
+        "height": 96,
+        "width": 198,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1040,
+        -128
+      ],
+      "typeVersion": 1,
+      "id": "5108692e-1fc5-4b74-8655-cc9e78388cb3",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "content": "### Nesse exemplo eu procurei criar um fluxo de automação que auxiliasse o processo de avaliação"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        368,
+        -432
+      ],
+      "typeVersion": 1,
+      "id": "65920d8f-21b1-4806-86c3-157551cc5e00",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "content": "### Eu também acredito que ele crie muitas possibilidades para evolução, como filtro para compatibilidade com a vaga, desclassicação de candidatos que estejam com uma porcentagem \"x\" inferior ao necessário.",
+        "width": 352
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        624,
+        -432
+      ],
+      "typeVersion": 1,
+      "id": "b97ff3fc-5166-4d99-a6b2-a2ad5041da5b",
+      "name": "Sticky Note10"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive Trigger": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "24e6d4f9-34b2-4e98-9659-8a16d9071c73",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a00ffc6a892fbcdb7628738f65c84c0117971d0f9e0cb2b315fde00cde0420d7"
+  },
+  "id": "dW1X4viMbkuWpz7g",
+  "tags": []
+}
